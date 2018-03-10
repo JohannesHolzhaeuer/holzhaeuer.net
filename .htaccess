@@ -1,0 +1,22 @@
+Header unset Content-Security-Policy
+Header add Content-Security-Policy "script-src 'strict-dynamic' 'nonce-DMpwlMsZ' http: https:; object-src 'none'; base-uri 'none'; form-action 'none'; default-src 'none'; frame-ancestors;"
+Header unset X-Content-Security-Policy
+Header add X-Content-Security-Policy "script-src 'strict-dynamic' 'nonce-DMpwlMsZ' http: https:; object-src 'none'; base-uri 'none'; form-action 'none'; default-src 'none'; frame-ancestors;"
+Header unset X-WebKit-CSP
+Header add X-WebKit-CSP "script-src 'strict-dynamic' 'nonce-DMpwlMsZ' http: https:; object-src 'none'; base-uri 'none'; form-action 'none'; default-src 'none'; frame-ancestors;"
+
+
+Header unset X-Content-Type-Options
+Header add X-Content-Type-Options "nosniff"
+
+Header unset Strict-Transport-Security
+Header add Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
+
+Header unset X-Frame-Options
+Header add X-Frame-Options "DENY"
+
+Header unset Referrer-Policy
+Header add Referrer-Policy "no-referrer"
+
+Header unset X-XSS-Protection
+Header add X-XSS-Protection "1; mode=block"
