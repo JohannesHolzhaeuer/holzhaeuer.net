@@ -1,0 +1,55 @@
+body {
+    background-color: #e7ecef;
+	font-family: Georgia, serif;
+	font-size: 30pt;
+}
+
+tr, td, th, thead, tbody {
+	align-content: center;
+	text-align: center;
+}
+
+table {
+	border-color: #e7ecef;
+}
+
+thead {
+	font-weight: bold;
+}
+
+.parent {
+	width: 50%;
+	border-style: solid;
+	border-width: thick;
+	padding: 20px;
+	border-color: #e7ecef;
+}
+
+.child {
+	border-style: solid;
+	border-width: thick;
+	padding: 20px;
+	border-color: #e7ecef;
+}
+
+.outer {
+	position: fixed;
+	height: 100%;
+	width: 100%;
+}
+
+.inner {
+	margin: auto;
+}
+
+#johannes {
+	background-color: #274c77;
+}
+
+#jenny {
+	background-color: #3066be;
+}
+
+#xxx {
+	background-color: #a3cef1;
+}
