@@ -75,3 +75,20 @@ a.contact:focus {
 	height: 1.25em;
 	flex-shrink: 0;
 }
+
+.repo {
+	position: fixed;
+	right: 16px;
+	bottom: 16px;
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	color: #3066be;
+	font-size: 0.95rem;
+	text-decoration: none;
+}
+
+.repo:hover,
+.repo:focus {
+	text-decoration: underline;
+}
