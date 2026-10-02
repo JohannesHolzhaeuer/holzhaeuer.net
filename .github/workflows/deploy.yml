@@ -18,8 +18,50 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      # The FTP-Deploy-Action downloads a remote state file to detect changes.
+      # When that file does not exist yet, basic-ftp hits "read ECONNRESET (data
+      # socket)" on this host and closes the connection, breaking the first
+      # publish. Seeding an empty state file on the server avoids that path.
+      - name: Seed remote deploy state
+        env:
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+          FTP_SERVER_DIR: ${{ secrets.FTP_SERVER_DIR }}
+        run: |
+          set -euo pipefail
+
+          HOST="${FTP_SERVER#ftps://}"
+          HOST="${HOST#ftp://}"
+          HOST="${HOST%/}"
+
+          DIR="${FTP_SERVER_DIR:-./}"
+          DIR="${DIR#./}"
+          DIR="${DIR#/}"
+          if [ -n "$DIR" ] && [ "${DIR%/}" = "$DIR" ]; then
+            DIR="${DIR}/"
+          fi
+
+          STATE_NAME=".ftp-deploy-sync-state.json"
+          REMOTE_URL="ftp://${HOST}/${DIR}${STATE_NAME}"
+
+          curl_ftp() {
+            curl --silent --show-error --ssl-reqd --insecure \
+              --user "${FTP_USERNAME}:${FTP_PASSWORD}" "$@"
+          }
+
+          if curl_ftp --fail --output /dev/null "$REMOTE_URL"; then
+            echo "Remote deploy state already exists at ${DIR}${STATE_NAME}"
+          else
+            STATE_FILE="$(mktemp)"
+            echo '{"description":"DO NOT DELETE THIS FILE. This file is used to keep track of which files have been synced.","version":"1.0.0","generatedTime":0,"data":[]}' > "$STATE_FILE"
+            curl_ftp --ftp-create-dirs --upload-file "$STATE_FILE" "$REMOTE_URL"
+            rm -f "$STATE_FILE"
+            echo "Seeded remote deploy state at ${DIR}${STATE_NAME}"
+          fi
+
       - name: Deploy
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        uses: SamKirkland/FTP-Deploy-Action@v4.4.0
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
@@ -33,3 +75,4 @@ jobs:
             **/.git*/**
             **/.github/**
             **/README.md
+            .ftp-deploy-sync-state.json
