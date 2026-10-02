@@ -24,3 +24,10 @@ Header add X-XSS-Protection "1; mode=block"
 
 Redirect 301 /.well-known/caldav https://calendar.zoho.eu/.well-known/caldav
 Redirect 301 /.well-known/carddav https://contacts.zoho.eu/.well-known/carddav
+
+
+# WebFinger alias: @johannes@holzhaeuer.net -> @holzhaeuer@mastodon.social
+<Files "webfinger">
+	ForceType application/jrd+json
+	Header set Access-Control-Allow-Origin "*"
+</Files>
