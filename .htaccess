@@ -19,7 +19,22 @@ Header unset Referrer-Policy
 Header add Referrer-Policy "no-referrer"
 
 Header unset X-XSS-Protection
-Header add X-XSS-Protection "1; mode=block"
+Header add X-XSS-Protection "0"
+
+Header unset Cross-Origin-Opener-Policy
+Header add Cross-Origin-Opener-Policy "same-origin"
+
+Header unset Cross-Origin-Embedder-Policy
+Header add Cross-Origin-Embedder-Policy "require-corp"
+
+Header unset Cross-Origin-Resource-Policy
+Header add Cross-Origin-Resource-Policy "same-origin"
+
+Header unset Permissions-Policy
+Header add Permissions-Policy "accelerometer=(), autoplay=(), camera=(), display-capture=(), encrypted-media=(), fullscreen=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(), picture-in-picture=(), publickey-credentials-get=(), screen-wake-lock=(), usb=(), xr-spatial-tracking=()"
+
+Header unset X-Permitted-Cross-Domain-Policies
+Header add X-Permitted-Cross-Domain-Policies "none"
 
 
 Redirect 301 /.well-known/caldav https://calendar.zoho.eu/.well-known/caldav
