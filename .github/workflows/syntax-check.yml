@@ -1,0 +1,63 @@
+name: Syntax check
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: syntax-check-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  syntax-check:
+    name: Lint HTML, CSS and other text files
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
+      - name: HTML (html-validate)
+        run: |
+          mapfile -t files < <(git ls-files '*.html')
+          if [ ${#files[@]} -eq 0 ]; then echo "No HTML files"; exit 0; fi
+          npx --yes html-validate@11 "${files[@]}"
+
+      - name: CSS (csstree-validator)
+        run: |
+          mapfile -t files < <(git ls-files '*.css')
+          if [ ${#files[@]} -eq 0 ]; then echo "No CSS files"; exit 0; fi
+          npx --yes csstree-validator@4 "${files[@]}"
+
+      - name: JSON (python)
+        run: |
+          python3 -c "import json, subprocess; paths = subprocess.check_output(['git', 'ls-files', '*.json', '*.webmanifest'], text=True).split(); [json.load(open(p, encoding='utf-8')) for p in paths]; print(f'{len(paths)} JSON file(s) checked')"
+
+      - name: XML and SVG well-formedness (python)
+        run: |
+          python3 -c "import subprocess, xml.etree.ElementTree as ET; paths = subprocess.check_output(['git', 'ls-files', '*.xml', '*.svg'], text=True).split(); [ET.parse(p) for p in paths]; print(f'{len(paths)} XML/SVG file(s) checked')"
+
+      - name: YAML (js-yaml)
+        run: |
+          mapfile -t files < <(git ls-files '*.yml' '*.yaml')
+          if [ ${#files[@]} -eq 0 ]; then echo "No YAML files"; exit 0; fi
+          for file in "${files[@]}"; do
+            npx --yes js-yaml@5 "$file" > /dev/null
+            echo "ok: $file"
+          done
+
+      - name: Markdown (markdownlint-cli2)
+        run: |
+          mapfile -t files < <(git ls-files '*.md')
+          if [ ${#files[@]} -eq 0 ]; then echo "No Markdown files"; exit 0; fi
+          npx --yes markdownlint-cli2@0 "${files[@]}"
