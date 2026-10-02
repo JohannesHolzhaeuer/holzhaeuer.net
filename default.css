@@ -1,55 +1,48 @@
+html,
 body {
-    background-color: #e7ecef;
+	height: 100%;
+	margin: 0;
+}
+
+body {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: #e7ecef;
+	color: #274c77;
 	font-family: Georgia, serif;
-	font-size: 30pt;
 }
 
-tr, td, th, thead, tbody {
-	align-content: center;
+main {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 	text-align: center;
+	padding: 20px;
 }
 
-table {
-	border-color: #e7ecef;
+.avatar {
+	width: 200px;
+	height: 200px;
+	border-radius: 50%;
+	object-fit: cover;
+	background-color: #a3cef1;
+	box-shadow: 0 4px 16px rgba(39, 76, 119, 0.25);
 }
 
-thead {
+.name {
+	margin: 24px 0 8px;
+	font-size: 2rem;
 	font-weight: bold;
 }
 
-.parent {
-	width: 50%;
-	border-style: solid;
-	border-width: thick;
-	padding: 20px;
-	border-color: #e7ecef;
+.email {
+	color: #3066be;
+	font-size: 1.25rem;
+	text-decoration: none;
 }
 
-.child {
-	border-style: solid;
-	border-width: thick;
-	padding: 20px;
-	border-color: #e7ecef;
-}
-
-.outer {
-	position: fixed;
-	height: 100%;
-	width: 100%;
-}
-
-.inner {
-	margin: auto;
-}
-
-#johannes {
-	background-color: #274c77;
-}
-
-#jenny {
-	background-color: #3066be;
-}
-
-#xxx {
-	background-color: #a3cef1;
+.email:hover,
+.email:focus {
+	text-decoration: underline;
 }

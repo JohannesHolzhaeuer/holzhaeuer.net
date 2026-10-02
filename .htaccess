@@ -1,9 +1,9 @@
 Header unset Content-Security-Policy
-Header add Content-Security-Policy "default-src 'none'; style-src https://holzhaeuer.net https://www.holzhaeuer.net; base-uri 'none'; form-action 'none'; frame-ancestors;"
+Header add Content-Security-Policy "default-src 'none'; style-src 'self'; img-src 'self' https://secure.gravatar.com; manifest-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none';"
 Header unset X-Content-Security-Policy
-Header add X-Content-Security-Policy "default-src 'none'; style-src https://holzhaeuer.net https://www.holzhaeuer.net; base-uri 'none'; form-action 'none'; frame-ancestors;"
+Header add X-Content-Security-Policy "default-src 'none'; style-src 'self'; img-src 'self' https://secure.gravatar.com; manifest-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none';"
 Header unset X-WebKit-CSP
-Header add X-WebKit-CSP "default-src 'none'; style-src https://holzhaeuer.net https://www.holzhaeuer.net; base-uri 'none'; form-action 'none'; frame-ancestors;"
+Header add X-WebKit-CSP "default-src 'none'; style-src 'self'; img-src 'self' https://secure.gravatar.com; manifest-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none';"
 
 
 Header unset X-Content-Type-Options
