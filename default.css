@@ -1,3 +1,22 @@
+:root {
+	color-scheme: light dark;
+	--bg: #e7ecef;
+	--text: #274c77;
+	--link: #3066be;
+	--avatar-bg: #a3cef1;
+	--avatar-shadow: 0 4px 16px rgba(39, 76, 119, 0.25);
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--bg: #0b1220;
+		--text: #e7ecef;
+		--link: #a3cef1;
+		--avatar-bg: #1b2a41;
+		--avatar-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+	}
+}
+
 html,
 body {
 	height: 100%;
@@ -8,8 +27,8 @@ body {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	background-color: #e7ecef;
-	color: #274c77;
+	background-color: var(--bg);
+	color: var(--text);
 	font-family: Georgia, serif;
 }
 
@@ -26,8 +45,8 @@ main {
 	height: 200px;
 	border-radius: 50%;
 	object-fit: cover;
-	background-color: #a3cef1;
-	box-shadow: 0 4px 16px rgba(39, 76, 119, 0.25);
+	background-color: var(--avatar-bg);
+	box-shadow: var(--avatar-shadow);
 }
 
 .name {
@@ -37,7 +56,7 @@ main {
 }
 
 .email {
-	color: #3066be;
+	color: var(--link);
 	font-size: 1.25rem;
 	text-decoration: none;
 }
@@ -60,7 +79,7 @@ main {
 	display: inline-flex;
 	align-items: center;
 	gap: 10px;
-	color: #3066be;
+	color: var(--link);
 	font-size: 1.15rem;
 	text-decoration: none;
 }
@@ -83,7 +102,7 @@ a.contact:focus {
 	display: inline-flex;
 	align-items: center;
 	gap: 8px;
-	color: #3066be;
+	color: var(--link);
 	font-size: 0.95rem;
 	text-decoration: none;
 }
