@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       # The FTP-Deploy-Action downloads a remote state file to detect changes.
       # When that file does not exist yet, basic-ftp hits "read ECONNRESET (data
