@@ -1,9 +1,11 @@
 name: Deploy to udmedia
 
 on:
-  push:
-    branches:
-      - main
+  # Deploy only published releases, so production always matches a tagged
+  # release (created by release-please) instead of every push to main.
+  release:
+    types:
+      - published
   workflow_dispatch:
 
 concurrency:
@@ -17,6 +19,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v7
+        with:
+          # Deploy the exact tagged commit that was released. Falls back to the
+          # dispatched ref for manual runs.
+          ref: ${{ github.event.release.tag_name || github.ref }}
 
       # The FTP-Deploy-Action downloads a remote state file to detect changes.
       # When that file does not exist yet, basic-ftp hits "read ECONNRESET (data
