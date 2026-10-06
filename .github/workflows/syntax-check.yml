@@ -15,9 +15,10 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  syntax-check:
-    name: Lint HTML, CSS and other text files
+  html:
+    name: HTML (html-validate)
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - name: Checkout
         uses: actions/checkout@v7
@@ -27,27 +28,69 @@ jobs:
         with:
           node-version: "24"
 
-      - name: HTML (html-validate)
+      - name: Validate HTML
         run: |
           mapfile -t files < <(git ls-files '*.html')
           if [ ${#files[@]} -eq 0 ]; then echo "No HTML files"; exit 0; fi
           npx --yes html-validate@11 "${files[@]}"
 
-      - name: CSS (csstree-validator)
+  css:
+    name: CSS (csstree-validator)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+
+      - name: Validate CSS
         run: |
           mapfile -t files < <(git ls-files '*.css')
           if [ ${#files[@]} -eq 0 ]; then echo "No CSS files"; exit 0; fi
           npx --yes csstree-validator@4 "${files[@]}"
 
-      - name: JSON (python)
+  json:
+    name: JSON (python)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Validate JSON
         run: |
           python3 -c "import json, subprocess; paths = subprocess.check_output(['git', 'ls-files', '*.json', '*.webmanifest'], text=True).split(); [json.load(open(p, encoding='utf-8')) for p in paths]; print(f'{len(paths)} JSON file(s) checked')"
 
-      - name: XML and SVG well-formedness (python)
+  xml-svg:
+    name: XML and SVG well-formedness (python)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Validate XML and SVG
         run: |
           python3 -c "import subprocess, xml.etree.ElementTree as ET; paths = subprocess.check_output(['git', 'ls-files', '*.xml', '*.svg'], text=True).split(); [ET.parse(p) for p in paths]; print(f'{len(paths)} XML/SVG file(s) checked')"
 
-      - name: YAML (js-yaml)
+  yaml:
+    name: YAML (js-yaml)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+
+      - name: Validate YAML
         run: |
           mapfile -t files < <(git ls-files '*.yml' '*.yaml')
           if [ ${#files[@]} -eq 0 ]; then echo "No YAML files"; exit 0; fi
@@ -56,8 +99,44 @@ jobs:
             echo "ok: $file"
           done
 
-      - name: Markdown (markdownlint-cli2)
+  markdown:
+    name: Markdown (markdownlint-cli2)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+
+      - name: Validate Markdown
         run: |
           mapfile -t files < <(git ls-files '*.md')
           if [ ${#files[@]} -eq 0 ]; then echo "No Markdown files"; exit 0; fi
           npx --yes markdownlint-cli2@0 "${files[@]}"
+
+  # Single aggregator status check. Make this the only required check in the
+  # branch ruleset: the action fails if any job in `needs` failed, was
+  # cancelled or was skipped, and it also fails if a job of this workflow is
+  # missing from `needs`, so newly added jobs become mandatory automatically.
+  all-checks:
+    name: All checks
+    if: always()
+    needs:
+      - html
+      - css
+      - json
+      - xml-svg
+      - yaml
+      - markdown
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    timeout-minutes: 10
+    steps:
+      - uses: suzuki-shunsuke/required-status-check-action@2b5a46064846b09381852c2c4217e898f639e768 # v0.1.3
+        with:
+          needs: ${{ toJson(needs) }}
