@@ -15,6 +15,35 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  commitlint:
+    name: Commitlint
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      # Only pull requests have a base/head range to lint; on push to main the
+      # steps are skipped so the job stays green and the `all-checks` gate
+      # never sees a skipped job.
+      - name: Checkout
+        if: github.event_name == 'pull_request'
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        if: github.event_name == 'pull_request'
+        uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+          cache: npm
+
+      - name: Install dependencies
+        if: github.event_name == 'pull_request'
+        run: npm ci
+
+      - name: Lint commit messages
+        if: github.event_name == 'pull_request'
+        run: npx commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }} --verbose
+
   html:
     name: HTML (html-validate)
     runs-on: ubuntu-latest
@@ -127,6 +156,7 @@ jobs:
     name: All checks
     if: always()
     needs:
+      - commitlint
       - html
       - css
       - json
