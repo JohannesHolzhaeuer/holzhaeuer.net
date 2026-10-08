@@ -186,3 +186,17 @@ a.contact:focus {
 .repo:focus {
 	text-decoration: underline;
 }
+
+.version {
+	position: fixed;
+	left: 16px;
+	bottom: 16px;
+	color: var(--link);
+	font-size: 0.95rem;
+	text-decoration: none;
+}
+
+.version:hover,
+.version:focus {
+	text-decoration: underline;
+}
