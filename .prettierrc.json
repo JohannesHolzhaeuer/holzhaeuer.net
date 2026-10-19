@@ -1,0 +1,11 @@
+{
+  "printWidth": 100,
+  "overrides": [
+    {
+      "files": ["*.html", "*.css", "*.js", "*.mjs", "*.cjs", "*.ts", "*.mts", "*.cts", "*.md"],
+      "options": {
+        "useTabs": true
+      }
+    }
+  ]
+}
