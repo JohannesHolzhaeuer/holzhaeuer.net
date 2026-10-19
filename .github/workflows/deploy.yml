@@ -24,6 +24,20 @@ jobs:
           # dispatched ref for manual runs.
           ref: ${{ github.event.release.tag_name || github.ref }}
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      # The icon assets are generated at deploy time from the Gravatar image so
+      # they do not have to be kept in the repository.
+      - name: Generate icons
+        run: npm run icons
+
       # The FTP-Deploy-Action downloads a remote state file to detect changes.
       # When that file does not exist yet, basic-ftp hits "read ECONNRESET (data
       # socket)" on this host and closes the connection, breaking the first
@@ -79,6 +93,8 @@ jobs:
           exclude: |
             **/.git*
             **/.git*/**
+            **/node_modules/**
             **/.github/**
+            **/scripts/**
             **/README.md
             .ftp-deploy-sync-state.json
