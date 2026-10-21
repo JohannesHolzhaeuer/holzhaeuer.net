@@ -1,6 +1,7 @@
 node_modules/
 
 # Generated from the Gravatar image during deployment (npm run icons).
+avatar.webp
 favicon.svg
 favicon.ico
 favicon-16x16.png

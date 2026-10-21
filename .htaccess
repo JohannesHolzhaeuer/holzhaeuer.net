@@ -1,9 +1,23 @@
+Options -Indexes
+AddDefaultCharset utf-8
+
+# Never expose dotfiles (server config, CI metadata, deploy state, tool config).
+<FilesMatch "^\.">
+	Require all denied
+</FilesMatch>
+
+# Keep tooling files out of the published site.
+<FilesMatch "^(package\.json|package-lock\.json|commitlint\.config\.ts)$">
+	Require all denied
+</FilesMatch>
+
+
 Header unset Content-Security-Policy
-Header add Content-Security-Policy "default-src 'none'; style-src 'self'; img-src 'self' https://secure.gravatar.com; manifest-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none';"
+Header add Content-Security-Policy "default-src 'none'; script-src 'none'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'none'; media-src 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'; manifest-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests;"
 Header unset X-Content-Security-Policy
-Header add X-Content-Security-Policy "default-src 'none'; style-src 'self'; img-src 'self' https://secure.gravatar.com; manifest-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none';"
+Header add X-Content-Security-Policy "default-src 'none'; script-src 'none'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'none'; media-src 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'; manifest-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests;"
 Header unset X-WebKit-CSP
-Header add X-WebKit-CSP "default-src 'none'; style-src 'self'; img-src 'self' https://secure.gravatar.com; manifest-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none';"
+Header add X-WebKit-CSP "default-src 'none'; script-src 'none'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'none'; media-src 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'; manifest-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests;"
 
 
 Header unset X-Content-Type-Options
@@ -21,6 +35,12 @@ Header add Referrer-Policy "no-referrer"
 Header unset X-XSS-Protection
 Header add X-XSS-Protection "0"
 
+Header unset Origin-Agent-Cluster
+Header add Origin-Agent-Cluster "?1"
+
+Header unset X-DNS-Prefetch-Control
+Header add X-DNS-Prefetch-Control "off"
+
 Header unset Cross-Origin-Opener-Policy
 Header add Cross-Origin-Opener-Policy "same-origin"
 
@@ -31,7 +51,7 @@ Header unset Cross-Origin-Resource-Policy
 Header add Cross-Origin-Resource-Policy "same-origin"
 
 Header unset Permissions-Policy
-Header add Permissions-Policy "accelerometer=(), autoplay=(), camera=(), display-capture=(), encrypted-media=(), fullscreen=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(), picture-in-picture=(), publickey-credentials-get=(), screen-wake-lock=(), usb=(), xr-spatial-tracking=()"
+Header add Permissions-Policy "accelerometer=(), attribution-reporting=(), autoplay=(), browsing-topics=(), camera=(), clipboard-read=(), clipboard-write=(), compute-pressure=(), display-capture=(), encrypted-media=(), fullscreen=(), geolocation=(), gyroscope=(), hid=(), join-ad-interest-group=(), local-fonts=(), magnetometer=(), microphone=(), midi=(), payment=(), picture-in-picture=(), private-aggregation=(), publickey-credentials-get=(), run-ad-auction=(), screen-wake-lock=(), serial=(), shared-storage=(), storage-access=(), usb=(), window-management=(), xr-spatial-tracking=()"
 
 Header unset X-Permitted-Cross-Domain-Policies
 Header add X-Permitted-Cross-Domain-Policies "none"
@@ -45,4 +65,9 @@ Redirect 301 /.well-known/carddav https://contacts.zoho.eu/.well-known/carddav
 <Files "webfinger">
 	ForceType application/jrd+json
 	Header set Access-Control-Allow-Origin "*"
+	Header set Cross-Origin-Resource-Policy "cross-origin"
+</Files>
+
+<Files "security.txt">
+	ForceType text/plain
 </Files>

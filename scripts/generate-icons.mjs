@@ -108,6 +108,11 @@ await writeFile("apple-touch-icon.png", await square(180));
 await writeFile("android-chrome-192x192.png", await square(192));
 await writeFile("android-chrome-512x512.png", await square(512));
 
+await writeFile(
+	"avatar.webp",
+	await sharp(avatar).rotate().resize(400, 400, { fit: "cover" }).webp({ quality: 90 }).toBuffer(),
+);
+
 for (const size of [70, 144, 150, 310]) {
 	await writeFile(`mstile-${size}x${size}.png`, await square(size));
 }
