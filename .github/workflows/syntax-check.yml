@@ -182,7 +182,7 @@ jobs:
           node-version: "24"
 
       - name: Validate security.txt
-        run: node scripts/check-security-txt.mjs
+        run: node scripts/check-security-txt.ts
 
   # Single aggregator status check. Make this the only required check in the
   # branch ruleset: the action fails if any job in `needs` failed, was

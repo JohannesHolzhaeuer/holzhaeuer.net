@@ -7,9 +7,9 @@
   "type": "module",
   "scripts": {
     "prepare": "husky",
-    "icons": "node scripts/generate-icons.mjs",
-    "security:check": "node scripts/check-security-txt.mjs",
-    "security:refresh": "node scripts/check-security-txt.mjs --fix",
+    "icons": "node scripts/generate-icons.ts",
+    "security:check": "node scripts/check-security-txt.ts",
+    "security:refresh": "node scripts/check-security-txt.ts --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },
