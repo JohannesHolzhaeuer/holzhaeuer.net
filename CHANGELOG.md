@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/JohannesHolzhaeuer/holzhaeuer.net/compare/v1.1.0...v1.1.1) (2026-10-21)
+
+
+### Bug Fixes
+
+* keep avatar visible and scroll only contacts on mobile ([#46](https://github.com/JohannesHolzhaeuer/holzhaeuer.net/issues/46)) ([0ca25e8](https://github.com/JohannesHolzhaeuer/holzhaeuer.net/commit/0ca25e85d1f6c4685fa4589d1c995d40bf1c844c)), closes [#45](https://github.com/JohannesHolzhaeuer/holzhaeuer.net/issues/45)
+
 ## [1.1.0](https://github.com/JohannesHolzhaeuer/holzhaeuer.net/compare/v1.0.0...v1.1.0) (2026-10-20)
 
 
