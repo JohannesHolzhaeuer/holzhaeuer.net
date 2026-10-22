@@ -35,7 +35,12 @@ async function fetchAvatar() {
 	throw new Error("unreachable");
 }
 
-function buildIco(images) {
+type IcoImage = {
+	size: number;
+	data: Buffer;
+};
+
+function buildIco(images: IcoImage[]): Buffer {
 	const header = Buffer.alloc(6);
 	header.writeUInt16LE(0, 0);
 	header.writeUInt16LE(1, 2);
@@ -62,7 +67,7 @@ function buildIco(images) {
 
 const avatar = await fetchAvatar();
 
-function square(size) {
+function square(size: number) {
 	return sharp(avatar)
 		.rotate()
 		.resize(size, size, { fit: "cover" })
@@ -71,7 +76,7 @@ function square(size) {
 		.toBuffer();
 }
 
-async function round(size) {
+async function round(size: number) {
 	const large = size * ROUND_SUPERSAMPLE;
 	const circle = Buffer.from(
 		`<svg xmlns="http://www.w3.org/2000/svg" width="${large}" height="${large}"><circle cx="${large / 2}" cy="${large / 2}" r="${large / 2}" fill="#fff"/></svg>`,
@@ -98,7 +103,7 @@ await writeFile(
 	`<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">\n\t<image width="64" height="64" href="data:image/png;base64,${favicon64.toString("base64")}"/>\n</svg>\n`,
 );
 
-const icoImages = [];
+const icoImages: IcoImage[] = [];
 for (const size of [16, 32, 48]) {
 	icoImages.push({ size, data: await round(size) });
 }
@@ -107,6 +112,11 @@ await writeFile("favicon.ico", buildIco(icoImages));
 await writeFile("apple-touch-icon.png", await square(180));
 await writeFile("android-chrome-192x192.png", await square(192));
 await writeFile("android-chrome-512x512.png", await square(512));
+
+await writeFile(
+	"avatar.webp",
+	await sharp(avatar).rotate().resize(400, 400, { fit: "cover" }).webp({ quality: 90 }).toBuffer(),
+);
 
 for (const size of [70, 144, 150, 310]) {
 	await writeFile(`mstile-${size}x${size}.png`, await square(size));

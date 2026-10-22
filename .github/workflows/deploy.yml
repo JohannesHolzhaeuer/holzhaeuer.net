@@ -18,14 +18,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           # Deploy the exact tagged commit that was released. Falls back to the
           # dispatched ref for manual runs.
           ref: ${{ github.event.release.tag_name || github.ref }}
 
       - name: Set up Node.js
-        uses: actions/setup-node@v7
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
         with:
           node-version: "24"
           cache: npm
@@ -66,7 +66,7 @@ jobs:
           REMOTE_URL="ftp://${HOST}/${DIR}${STATE_NAME}"
 
           curl_ftp() {
-            curl --silent --show-error --ssl-reqd --insecure \
+            curl --silent --show-error --ssl-reqd \
               --user "${FTP_USERNAME}:${FTP_PASSWORD}" "$@"
           }
 
@@ -81,7 +81,7 @@ jobs:
           fi
 
       - name: Deploy
-        uses: SamKirkland/FTP-Deploy-Action@v4.4.0
+        uses: SamKirkland/FTP-Deploy-Action@110f9186c050f71550953127052e77650219c287 # v4.4.0
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}

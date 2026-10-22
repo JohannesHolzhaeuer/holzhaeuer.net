@@ -1,0 +1,4 @@
+Contact: mailto:johannes@holzhaeuer.net
+Expires: 2027-10-21T00:00:00.000Z
+Canonical: https://holzhaeuer.net/.well-known/security.txt
+Preferred-Languages: de, en
