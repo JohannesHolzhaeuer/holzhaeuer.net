@@ -29,6 +29,25 @@ if (missing.length > 0) {
 	process.exit(1);
 }
 
+function isHttpsUrl(value: string): boolean {
+	try {
+		return new URL(value).protocol === "https:";
+	} catch {
+		return false;
+	}
+}
+
+const contact = fields.get("contact") ?? "";
+if (!contact.startsWith("mailto:") && !isHttpsUrl(contact)) {
+	console.error("security.txt Contact must be a mailto: or https: URI.");
+	process.exit(1);
+}
+
+if (!isHttpsUrl(fields.get("canonical") ?? "")) {
+	console.error("security.txt Canonical must be an https: URL.");
+	process.exit(1);
+}
+
 const expires = new Date(fields.get("expires"));
 if (Number.isNaN(expires.getTime())) {
 	console.error(`security.txt has an invalid Expires value: ${fields.get("expires")}`);
