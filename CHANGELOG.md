@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.2](https://github.com/JohannesHolzhaeuer/holzhaeuer.net/compare/v1.1.1...v1.1.2) (2026-10-22)
+
+
+### Bug Fixes
+
+* validate security.txt and drop obsolete CSP headers ([#49](https://github.com/JohannesHolzhaeuer/holzhaeuer.net/issues/49)) ([459a212](https://github.com/JohannesHolzhaeuer/holzhaeuer.net/commit/459a21295a6c59f6a6e5396e02643d445e4a611e))
+
 ## [1.1.1](https://github.com/JohannesHolzhaeuer/holzhaeuer.net/compare/v1.1.0...v1.1.1) (2026-10-21)
 
 
