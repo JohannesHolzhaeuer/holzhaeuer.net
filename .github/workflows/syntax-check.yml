@@ -168,6 +168,26 @@ jobs:
           if [ ${#files[@]} -eq 0 ]; then echo "No Markdown files"; exit 0; fi
           npx --yes markdownlint-cli2@0 "${files[@]}"
 
+  typescript:
+    name: TypeScript (tsc)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - name: Set up Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version: "24"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Type check
+        run: npm run typecheck
+
   security:
     name: Security (security.txt)
     runs-on: ubuntu-latest
@@ -200,6 +220,7 @@ jobs:
       - xml-svg
       - yaml
       - markdown
+      - typescript
       - security
     runs-on: ubuntu-latest
     permissions:

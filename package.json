@@ -10,6 +10,7 @@
     "icons": "node scripts/generate-icons.ts",
     "security:check": "node scripts/check-security-txt.ts",
     "security:refresh": "node scripts/check-security-txt.ts --fix",
+    "typecheck": "tsc --noEmit",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },
@@ -17,9 +18,11 @@
     "@commitlint/cli": "^21.2.3",
     "@commitlint/config-conventional": "^21.2.2",
     "@commitlint/types": "^21.2.0",
+    "@types/node": "^26.6.5",
     "husky": "^9.1.7",
     "lint-staged": "^17.6.0",
     "prettier": "^3.9.10",
-    "sharp": "^0.35.5"
+    "sharp": "^0.35.5",
+    "typescript": "^7.0.2"
   }
 }
