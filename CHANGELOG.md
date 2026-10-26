@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/JohannesHolzhaeuer/holzhaeuer.net/compare/v1.1.2...v1.2.0) (2026-10-25)
+
+
+### Features
+
+* add microsoft identity association file ([#51](https://github.com/JohannesHolzhaeuer/holzhaeuer.net/issues/51)) ([f28a5d9](https://github.com/JohannesHolzhaeuer/holzhaeuer.net/commit/f28a5d94205122fe5c59fbbcfc36a95a08282750))
+
 ## [1.1.2](https://github.com/JohannesHolzhaeuer/holzhaeuer.net/compare/v1.1.1...v1.1.2) (2026-10-22)
 
 
